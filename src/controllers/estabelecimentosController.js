@@ -1,26 +1,15 @@
-const estabelecimentosModels = require('../models/estabelecimentosModels');
+const mongoose = require('mongoose');
 const { query } = require('express');
-
+const estabelecimentosSchema = require('../models/estabelecimentosModels');
 
 const todosOsEstabelecimentos = async (req, res) => {
-    const cadastro = await estabelecimentosModels.find({ query })
+    const cadastro = await estabelecimentosSchema.find({ query })
     res.status(200).json(cadastro)
-}
-
-const pesquisarPorId = async (req, res) => {
-    try {
-        const cadastro = await estabelecimentosModels.findById(req.params.id)
-    res.status(200).json(cadastro)
-
-    } catch(error) {
-    return res.status(500).send({
-        message: error.message})
-    }
 }
 
 const abriCadastro = async (req, res) => {
     const { nome, cnpj, email, endereco, telefone, tipoEstabelecimento} = req.body
-        const cadastro = new estabelecimentosModels({
+        const cadastro = new estabelecimentosSchema({
             nome: nome,
             cnpj: cnpj,
             email: email,
@@ -31,21 +20,32 @@ const abriCadastro = async (req, res) => {
         const salvarCadastro = await cadastro.save();
         return res.status(201).json({
             statusCode:201,
-            message: 'Cadastro feito :D',
+            message: 'Cadastro criado !!!',
             cadastro: salvarCadastro
         })
 }
 
 
+const pesquisarPorId = async (req, res) => {
+    try {
+        const cadastro = await estabelecimentosSchema.findById(req.params.id)
+    res.status(200).json(cadastro)
+
+    } catch(error) {
+    return res.status(500).send({
+        message: error.message})
+    }
+}
+
 const updatePorId = async (req, res) => {
     const { nome, cnpj, email, endereco, telefone, tipoEstabelecimento } = req.body;
 
-        const procurarCadastro = await estabelecimentosModels.findById(req.params.id)
+        const procurarCadastro = await estabelecimentosSchema.findById(req.params.id)
         
         if (!procurarCadastro) {
         res.status(404).send({
         statusCode: 404,
-        message:`seu cadastro de id ${req.params.id} não foi achado :(`})
+        message:`Cadastro de id ${req.params.id} não encontrado :(`})
     }
     try {
         procurarCadastro.nome = nome || procurarCadastro.nome;
@@ -69,18 +69,18 @@ const updatePorId = async (req, res) => {
 
 const deletarCadastro = async (req, res) => {
     const { id } = req.params
-        const procurarCadastro = await estabelecimentosModels.findById(id)
+        const procurarCadastro = await estabelecimentosSchema.findById(id)
 
         if(!procurarCadastro) {
         res.status(404).send({
             statusCode: 404,
-            message: `não achamos o cadastro ${id} :(`})
+            message: `Cadastro de id ${id} não encontrado :(`})
         }
         await procurarCadastro.delete()
 
         return res.status(200).send({
         statusCode: 200,
-        message: 'Cadastro deletado!'
+        message: 'Cadastro deletado com sucesso :D'
     })
 }
 

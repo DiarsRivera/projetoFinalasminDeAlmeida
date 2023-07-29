@@ -7,13 +7,13 @@ const connect = async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     }).then(() => {
-        console.log('banco de dados on e funcionando :3')
+        console.log('Banco de dados conectado, queride.')
     })
     .catch((err) => {
         console.error(err);
         throw err;
-    })
-}
+    });
+};
 
 module.exports = {
     connect

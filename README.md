@@ -25,5 +25,3 @@ delete("/:id") = Deleta um estabelecimento do sistema.
 TECNOLOGIAS UTILIZADAS:
 
 O projeto é interamente feito em JavaScript, se utilizando das bibliotecas dotenv, express, mongoose, nodemon, integrado na plataforma mongo.db, documentado na plataforma swagger, sendo deployado na plataforma Vercel. Além disso, provaremos sua funcionalidade na plataforma postman.
-
-
